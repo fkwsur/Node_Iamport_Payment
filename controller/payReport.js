@@ -13,7 +13,6 @@ module.exports = {
 	IamPort :  async (req, res) => {
 		try {
 			let {payment, user_id} = req.body;
-			console.log(payment + '@@@@@@@@@@@@@@@@@');
 			const rows = await pay_report.create({
 				user_id : user_id,
 				imp_uid : payment.imp_uid,
@@ -52,7 +51,6 @@ module.exports = {
 	Cancel :  async (req, res) => {
 		try {
 			let {merchant_uid, reason} = req.body;
-			console.log(merchant_uid)
 			const rows = await pay_report.findOne({
 				where : {merchant_uid : merchant_uid}
 			})
