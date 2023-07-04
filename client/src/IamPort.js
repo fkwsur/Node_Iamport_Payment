@@ -33,7 +33,6 @@ export const IamPort = () => {
               return
           }
           if (res.data) {
-            console.log(res.data)
             setPaymentList(res.data)
           }
         })
@@ -80,7 +79,6 @@ export const IamPort = () => {
               return
           }
           if (res.data) {
-            console.log(res.data.result);
             alert('결제 성공');
             GetPayment();
           }
@@ -95,7 +93,6 @@ export const IamPort = () => {
 
   const cancelPay = async (k) => {
     try {
-      console.log(k)
       await axios.post('http://localhost:8081/api/v1/payment/cancel', {
         merchant_uid: k, // 주문번호
         // cancel_request_amount: 100, // 환불금액
