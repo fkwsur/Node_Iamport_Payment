@@ -41,15 +41,6 @@ db.sequelize
 app.register(router.userRouter, { prefix: "/api/v1/user" });
 app.register(router.payReportRouter, { prefix: "/api/v1/payment" });
 
-
-// app.listen(8081, (err, host) => {
-//   if (err) {
-//       console.error(err)
-//       process.exit(1)
-//   }
-//   console.log(`Server listening on ${host}`)
-// })
-
 app.listen({ port: 8081 }, (err) => { if (err) throw err }, () => {
   console.log("running on port 8081");
 });
