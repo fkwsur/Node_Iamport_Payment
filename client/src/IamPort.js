@@ -123,7 +123,6 @@ export const IamPort = () => {
     return(
       <>
       <button onClick={onClickPayment}>결제하기</button><br /><br />
-      {/* <button onClick={cancelPay}>환불하기</button> */}
       {paymentList ? paymentList.map((k) => {
           return (
             <>
