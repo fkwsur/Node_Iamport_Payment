@@ -101,4 +101,17 @@ module.exports = {
 		}
 	},
 
+	Webhook :  async (req, res) => {
+		try {
+			let {imp_uid,merchant_uid,status} = req.query;
+			console.log(imp_uid);
+			console.log(merchant_uid);
+			console.log(status);
+			if (!rows) throw "에러";
+			return  res.code(200).send(imp_uid,merchant_uid,status);
+		} catch (error) {
+			return res.code(200).send({error : error});
+		}
+	},
+
 }

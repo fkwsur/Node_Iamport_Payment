@@ -6,6 +6,8 @@ const { payReportController: controller } = require("../controller");
     fastify.post('/cancel', controller.Cancel);
     fastify.get('/getpayment', controller.GetPayment);
     done();
+    fastify.post('/webhook', controller.Webhook);
+    done();
 };
 
 
