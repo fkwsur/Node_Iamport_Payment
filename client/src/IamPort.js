@@ -64,6 +64,30 @@ export const IamPort = () => {
       /* 4. 결제 창 호출하기 */
       IMP.request_pay(data, result);
     }
+    const onKaKaoPayment = () => {
+      /* 1. 가맹점 식별하기 */
+      const imp_init = process.env.REACT_APP_IMP_INIT;
+      const { IMP } = window;
+      IMP.init(`${imp_init}`);
+
+      /* 2. 결제 데이터 정의하기 */
+      const data = {
+        pg: 'kakaopay',                           // PG사
+        pay_method: 'card',                           // 결제수단
+        merchant_uid: `mid_${new Date().getTime()}`,   // 주문번호
+        amount: 100,                                 // 결제금액
+        name: '카카오페이 결제 데이터 분석',                  // 주문명
+        buyer_name: '홍길동',                           // 구매자 이름
+        buyer_tel: '01012341234',                     // 구매자 전화번호
+        buyer_email: 'example@example.com',               // 구매자 이메일
+        buyer_addr: '신사동 661-16',                    // 구매자 주소
+        buyer_postcode: '06018'
+      };
+
+      /* 4. 결제 창 호출하기 */
+      IMP.request_pay(data, result);
+    }
+
     const result = async (response) => {
       const {
         success,
@@ -119,7 +143,10 @@ export const IamPort = () => {
 
     return(
       <>
-      <button onClick={onClickPayment}>결제하기</button><br /><br />
+      <button onClick={onClickPayment}>KG이니시스 결제하기</button><br /><br />
+      <button onClick={onKaKaoPayment}>카카오페이 결제하기</button><br /><br />
+      <button>네이버페이 결제하기 : 네이버페이 가입해서 사업자 아이디 있어야 함</button><br /><br />
+      <button>무통장입금 + 가상계좌 결제하기 : 웹훅이 있어야해서 배포 후 가능</button><br /><br />
       {paymentList ? paymentList.map((k) => {
           return (
             <>
