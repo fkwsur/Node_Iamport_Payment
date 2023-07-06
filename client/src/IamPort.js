@@ -145,7 +145,7 @@ export const IamPort = () => {
       <>
       <button onClick={onClickPayment}>KG이니시스 결제하기</button><br /><br />
       <button onClick={onKaKaoPayment}>카카오페이 결제하기</button><br /><br />
-      <button>네이버페이 결제하기 : 네이버페이 가입해서 사업자 아이디 있어야 함</button><br /><br />
+      <button>네이버페이 결제하기 : 네이버페이 가맹점 가입 및 사업자 아이디 있어야 함</button><br /><br />
       <button>무통장입금 + 가상계좌 결제하기 : 웹훅이 있어야해서 배포 후 가능</button><br /><br />
       {paymentList ? paymentList.map((k) => {
           return (
