@@ -8,8 +8,9 @@ const {
 const axios  = require('axios');
 const dotenv = require('dotenv');
 dotenv.config();
+const utils = require('util');
 
-const _iamport_payment_lookup_endpoint = "https://api.iamport.kr/payments/%s";
+const _iamport_payment_lookup_endpoint = "https://api.iamport.kr/payments";
 
 module.exports = {
 	// 결제가 됐는데 그동안 서버가 꺼져서 반영이 안된 경우에는 개발자가 서버 다운을 일일히 확인해서
@@ -22,7 +23,6 @@ module.exports = {
 			let {payment, user_id} = req.body;
 			const rows = await pay_report.create({
 				user_id : user_id,
-				imp_uid : payment.imp_uid,
 				pay_method : payment.pay_method,
 				merchant_uid : payment.merchant_uid,
 				paid_amount : payment.paid_amount,
@@ -48,35 +48,33 @@ module.exports = {
 	Accept :  async (req, res) => {
 		try {
 			let {payment, user_id} = req.body;
-
 			const getToken = await axios.post('https://api.iamport.kr/users/getToken', {
 				imp_key : process.env.imp_key,
 				imp_secret : process.env.imp_secret
 			})
 			// 실제로 결제내역이 있는지 아이엠포트 서버에서 확인
-			const retval = await axios.post(
-                util.format(_iamport_payment_lookup_endpoint, payment.imp_uid), {}, {
-                headers: {
-                    'Authorization': getToken.data.response.access_token
-                }
-            });
+			const retval = await axios.post(utils.format('https://api.iamport.kr/payments/%s',payment.imp_uid),{
+			}, {
+				headers: {
+					Authorization: getToken.data.response.access_token,
+				}
+			});
 			// 아이엠포트 서버에 결제내역이 없을 경우
 			if (retval.data.response.status != "paid") {
 				throw "에러";
             }
-
 			// 아이엠포트 서버상의 가격과 유저의 요청 가격 맞는지 비교
-			if(reply.amount != payment.paid_amount){
+			if(retval.data.response.amount != payment.paid_amount){
 				throw "에러";
             }
-
 			// 이전 결재대기 로직 불러와서 업데이트
-			const rows =await pay_report.update({
+			const rows = await pay_report.update({
 				is_complete :  0,
+				imp_uid : payment.imp_uid
 			  },{
-				where :{user_id : user_id,imp_uid : payment.imp_uid}
+				where :{user_id : user_id, merchant_uid : payment.merchant_uid}
 			  })
-
+			  console.log(rows)
   			if(rows) return res.code(200).send({result : true});
 			else throw "에러";
 		} catch (error) {
@@ -109,7 +107,7 @@ module.exports = {
 			if(getCancelData.data.code == 0){
 				// 업데이트 실패 시, 기록 따로 저장하는 로직 필요
 				await pay_report.update({
-					is_complete: true,
+					is_complete: 2,
 					cancel_reason : reason
 				}, {
 					where : { merchant_uid : merchant_uid}
@@ -127,7 +125,7 @@ module.exports = {
 		try {
 			let {user_id} = req.query;
 			const rows = await pay_report.findAll({
-				where : {user_id : user_id},
+				where : {user_id : user_id,is_complete : 0},
 				order: [["createdAt", "desc"]]
 			})
 			if (!rows) throw "에러";

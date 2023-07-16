@@ -41,13 +41,9 @@ export const IamPort = () => {
       }
     }
 
-    const onClickPayment = () => {
-      /* 1. 가맹점 식별하기 */
-      const imp_init = process.env.REACT_APP_IMP_INIT;
-      const { IMP } = window;
-      IMP.init(`${imp_init}`);
-
-      /* 2. 결제 데이터 정의하기 */
+    const onClickPayment = async () => {
+      try {
+          /* 2. 결제 데이터 정의하기 */
       const data = {
         pg: 'html5_inicis',                           // PG사
         pay_method: 'card',                           // 결제수단
@@ -61,16 +57,35 @@ export const IamPort = () => {
         buyer_postcode: '06018'
       };
 
-      /* 4. 결제 창 호출하기 */
-      IMP.request_pay(data, result);
+      // 결제 대기 상태로 요청
+      await axios.post('http://localhost:8081/api/v1/payment/waitaccept', {
+        payment : data,
+        user_id : "hjhj"
+      })  .then(res => {
+        if (res.data.error) {
+            console.log(res.data.error);
+            return
+        }
+        if (res.data.result == true) {
+          console.log(res.data, "??????????")
+          /* 1. 가맹점 식별하기 */
+          const imp_init = process.env.REACT_APP_IMP_INIT;
+          const { IMP } = window;
+          IMP.init(`${imp_init}`);
+          IMP.request_pay(data, result);
+        }
+      })
+      .catch(err => {
+          console.log(err);
+      });
+      } catch (error) {
+        console.log(error)
+      }
     }
-    const onKaKaoPayment = async () => {
-      /* 1. 가맹점 식별하기 */
-      const imp_init = process.env.REACT_APP_IMP_INIT;
-      const { IMP } = window;
-      IMP.init(`${imp_init}`);
 
-      /* 2. 결제 데이터 정의하기 */
+    const onKaKaoPayment = async () => {
+      try {
+          /* 2. 결제 데이터 정의하기 */
       const data = {
         pg: 'kakaopay',                           // PG사
         pay_method: 'card',                           // 결제수단
@@ -92,17 +107,21 @@ export const IamPort = () => {
             console.log(res.data.error);
             return
         }
-        if (res.data) {
-          alert('결제 성공');
-          GetPayment();
+        if (res.data.result == true) {
+          /* 1. 가맹점 식별하기 */
+          const imp_init = process.env.REACT_APP_IMP_INIT;
+          const { IMP } = window;
+          IMP.init(`${imp_init}`);
+          IMP.request_pay(data, result);
         }
       })
       .catch(err => {
           console.log(err);
       });
-
-      /* 4. 결제 창 호출하기 */
-      IMP.request_pay(data, result);
+      } catch (error) {
+        console.log(error)
+      }
+    
     }
 
     const result = async (response) => {
@@ -110,6 +129,7 @@ export const IamPort = () => {
         success,
         error_msg
       } = response;
+      console.log(response, "??????????")
       if (success) {
         // 결재 완료 요청
         await axios.post('http://localhost:8081/api/v1/payment/accept', {

@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       imp_uid: {
         type: DataTypes.STRING(180),
-        allowNull: false
+        allowNull: true
       },
       pay_method: {
        type: DataTypes.STRING(180),
