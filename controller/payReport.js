@@ -10,7 +10,6 @@ const dotenv = require('dotenv');
 dotenv.config();
 const util = require('util');
 
-const _iamport_payment_lookup_endpoint = "https://api.iamport.kr/payments";
 
 module.exports = {
 	// 결제가 됐는데 그동안 서버가 꺼져서 반영이 안된 경우에는 개발자가 서버 다운을 일일히 확인해서
@@ -67,7 +66,7 @@ module.exports = {
 			if(retval.data.response.amount != payment.paid_amount){
 				throw "에러";
             }
-			// 이전 결재대기 로직 불러와서 업데이트
+			// 이전 결재대기 로직 불러와서 결재완료 시키기
 			const rows = await pay_report.update({
 				is_complete :  0,
 				imp_uid : payment.imp_uid
