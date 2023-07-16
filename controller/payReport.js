@@ -138,17 +138,17 @@ module.exports = {
 	},
 
 	// 통장입금 + 가상계좌 결제하기 : 웹훅이 있어야해서 배포 후 가능
-	// Webhook :  async (req, res) => {
-	// 	try {
-	// 		let {imp_uid,merchant_uid,status} = req.query;
-	// 		console.log(imp_uid);
-	// 		console.log(merchant_uid);
-	// 		console.log(status);
-	// 		if (!rows) throw "에러";
-	// 		return  res.code(200).send(imp_uid,merchant_uid,status);
-	// 	} catch (error) {
-	// 		return res.code(200).send({error : error});
-	// 	}
-	// },
+	Webhook :  async (req, res) => {
+		try {
+			let {imp_uid,merchant_uid,status} = req.query;
+			console.log(imp_uid);
+			console.log(merchant_uid);
+			console.log(status);
+			if (!rows) throw "에러";
+			return  res.code(200).send(imp_uid,merchant_uid,status);
+		} catch (error) {
+			return res.code(200).send({error : error});
+		}
+	},
 
 }

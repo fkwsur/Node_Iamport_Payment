@@ -64,7 +64,7 @@ export const IamPort = () => {
       /* 4. 결제 창 호출하기 */
       IMP.request_pay(data, result);
     }
-    const onKaKaoPayment = () => {
+    const onKaKaoPayment = async () => {
       /* 1. 가맹점 식별하기 */
       const imp_init = process.env.REACT_APP_IMP_INIT;
       const { IMP } = window;
@@ -85,7 +85,7 @@ export const IamPort = () => {
       };
       // 결제 대기 상태로 요청
       await axios.post('http://localhost:8081/api/v1/payment/waitaccept', {
-        payment : response,
+        payment : data,
         user_id : "hjhj"
       })  .then(res => {
         if (res.data.error) {
