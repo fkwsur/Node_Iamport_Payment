@@ -8,7 +8,7 @@ const {
 const axios  = require('axios');
 const dotenv = require('dotenv');
 dotenv.config();
-const utils = require('util');
+const util = require('util');
 
 const _iamport_payment_lookup_endpoint = "https://api.iamport.kr/payments";
 
@@ -53,7 +53,7 @@ module.exports = {
 				imp_secret : process.env.imp_secret
 			})
 			// 실제로 결제내역이 있는지 아이엠포트 서버에서 확인
-			const retval = await axios.post(utils.format('https://api.iamport.kr/payments/%s',payment.imp_uid),{
+			const retval = await axios.post(util.format('https://api.iamport.kr/payments/%s',payment.imp_uid),{
 			}, {
 				headers: {
 					Authorization: getToken.data.response.access_token,
