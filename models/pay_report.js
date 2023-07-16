@@ -1,3 +1,5 @@
+// 결제 시스템은 shortid 사용하면 겹칠 위험때문에 쓰면 안되고 uuid 등 절대 안겹치는거 써야함.
+// 본 프로젝트에서 적용할 에정 이건 미니니까 냅둠
 const shortid = require("shortid");
 
 module.exports = (sequelize, DataTypes) => {
@@ -26,31 +28,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING(180),
         allowNull: true
       },
-      name: {
-        type: DataTypes.STRING(180),
-        allowNull: true
-      },
       paid_amount: {
-        type: DataTypes.STRING(180),
-        allowNull: true
-      },
-      currency: {
-        type: DataTypes.STRING(180),
-        allowNull: true
-      },
-      pg_provider: {
-        type: DataTypes.STRING(180),
-        allowNull: true
-      },
-      pg_type: {
-        type: DataTypes.STRING(180),
-        allowNull: true
-      },
-      pg_tid: {
-        type: DataTypes.STRING(180),
-        allowNull: true
-      },
-      apply_num: {
         type: DataTypes.STRING(180),
         allowNull: true
       },
@@ -74,22 +52,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING(180),
         allowNull: true
       },
-      custom_data: {
-        type: DataTypes.STRING(180),
-        allowNull: true
-      },
-      status: {
-        type: DataTypes.STRING(180),
-        allowNull: true
-      },
-      paid_at: {
-        type: DataTypes.STRING(180),
-        allowNull: true
-      },
-      receipt_url: {
-         type: DataTypes.STRING(200),
-        allowNull: true
-      },
       card_name: {
         type: DataTypes.STRING(180),
         allowNull: true
@@ -103,11 +65,12 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: true
       },
       card_number: {
-         type: DataTypes.STRING(100),
+        type: DataTypes.STRING(100),
         allowNull: true
       },
-      is_cancel: {
-         type: DataTypes.BOOLEAN,
+      // 0 : 정상 결제 / 1 : 결제 전 / 2 : 결제 취소  로 관리해야 함
+      is_complete: {
+        type: DataTypes.STRING(2),
         allowNull: false
       },
       cancel_reason: {

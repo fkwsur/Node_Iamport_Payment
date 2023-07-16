@@ -2,7 +2,8 @@ const { payReportController: controller } = require("../controller");
 
     const payReportRouter = (fastify, opt, done) => {
 
-    fastify.post('/iamport', controller.IamPort);
+    fastify.post('/waitaccept', controller.WaitAccept);
+    fastify.post('/accept', controller.Accept);
     fastify.post('/cancel', controller.Cancel);
     fastify.get('/getpayment', controller.GetPayment);
     done();

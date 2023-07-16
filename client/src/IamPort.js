@@ -83,6 +83,23 @@ export const IamPort = () => {
         buyer_addr: '신사동 661-16',                    // 구매자 주소
         buyer_postcode: '06018'
       };
+      // 결제 대기 상태로 요청
+      await axios.post('http://localhost:8081/api/v1/payment/waitaccept', {
+        payment : response,
+        user_id : "hjhj"
+      })  .then(res => {
+        if (res.data.error) {
+            console.log(res.data.error);
+            return
+        }
+        if (res.data) {
+          alert('결제 성공');
+          GetPayment();
+        }
+      })
+      .catch(err => {
+          console.log(err);
+      });
 
       /* 4. 결제 창 호출하기 */
       IMP.request_pay(data, result);
@@ -94,7 +111,8 @@ export const IamPort = () => {
         error_msg
       } = response;
       if (success) {
-        await axios.post('http://localhost:8081/api/v1/payment/iamport', {
+        // 결재 완료 요청
+        await axios.post('http://localhost:8081/api/v1/payment/accept', {
           payment : response,
           user_id : "hjhj"
         })  .then(res => {
