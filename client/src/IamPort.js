@@ -67,7 +67,6 @@ export const IamPort = () => {
             return
         }
         if (res.data.result == true) {
-          console.log(res.data, "??????????")
           /* 1. 가맹점 식별하기 */
           const imp_init = process.env.REACT_APP_IMP_INIT;
           const { IMP } = window;
@@ -129,7 +128,6 @@ export const IamPort = () => {
         success,
         error_msg
       } = response;
-      console.log(response, "??????????")
       if (success) {
         // 결재 완료 요청
         await axios.post('http://localhost:8081/api/v1/payment/accept', {
