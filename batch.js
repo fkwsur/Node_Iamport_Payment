@@ -28,21 +28,18 @@ const getInfo = async () => {
                 Authorization: getToken.data.response.access_token,
             }
         });
-        // console.log(retval.data.response);
         // 아이엠포트 서버에 결제내역이 없을 경우
         if (retval.data.response.status == "paid" && retval.data.response.amount == element.paid_amount) {
             await pay_report.update({
                 is_complete :  0,
                 imp_uid : retval.data.response.imp_uid
               },{
-                where :{user_id : user_id, merchant_uid : payment.merchant_uid}
+                where :{user_id : element.user_id, merchant_uid : element.merchant_uid}
             })
         }else{
             console.log("해당 없음")
         }
-
     };
 }
-
 
 getInfo();

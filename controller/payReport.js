@@ -24,7 +24,7 @@ module.exports = {
 				user_id : user_id,
 				pay_method : payment.pay_method,
 				merchant_uid : payment.merchant_uid,
-				paid_amount : payment.paid_amount,
+				paid_amount : payment.amount,
 				buyer_name : payment.buyer_name,
 				buyer_email : payment.buyer_email,
 				buyer_tel : payment.buyer_tel,
