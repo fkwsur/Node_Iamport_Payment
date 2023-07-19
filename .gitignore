@@ -3,3 +3,6 @@ node_modules
 ./node_modules
 batch.js
 .env
+side_server.js
+.side_server
+.batch.js

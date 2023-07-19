@@ -120,7 +120,7 @@ export const IamPort = () => {
       } catch (error) {
         console.log(error)
       }
-    
+
     }
 
     const result = async (response) => {
@@ -133,7 +133,8 @@ export const IamPort = () => {
         await axios.post('http://localhost:8081/api/v1/payment/accept', {
           payment : response,
           user_id : "hjhj"
-        })  .then(res => {
+        })
+        .then(res => {
           if (res.data.error) {
               console.log(res.data.error);
               return
@@ -142,10 +143,10 @@ export const IamPort = () => {
             alert('결제 성공');
             GetPayment();
           }
-      })
-      .catch(err => {
+        })
+        .catch(err => {
           console.log(err);
-      });
+        });
       } else {
         alert(`결제 실패: ${error_msg}`);
       }
