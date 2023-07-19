@@ -146,9 +146,33 @@ export const IamPort = () => {
         })
         .catch(err => {
           console.log(err);
+          SendSideServ(response);
         });
       } else {
         alert(`결제 실패: ${error_msg}`);
+      }
+    }
+
+    const SendSideServ = async (response) => {
+      try {
+        await axios.post('http://localhost:8082/api/v1/payment/sendside', {
+          payment : response,
+          user_id : "hjhj"
+        })
+        .then(res => {
+          if (res.data.error) {
+              console.log(res.data.error);
+              return
+          }
+          if (res.data) {
+              console.log("side server sended", res.data);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+      } catch (error) {
+        console.log(error);
       }
     }
 
