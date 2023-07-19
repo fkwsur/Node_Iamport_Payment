@@ -7,6 +7,7 @@ app.register(cors, { origin: '*' })
 
 const dotenv = require('dotenv');
 dotenv.config();
+const axios  = require('axios');
 
 const { Kafka } = require("kafkajs");
 const kafka = new Kafka({
