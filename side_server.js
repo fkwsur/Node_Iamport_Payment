@@ -31,7 +31,8 @@ app.post('/api/v1/payment/sendside', async (req, res) => {
           topic: "iamport_kafka",
           messages: [
               {
-              value : Buffer.from(data)
+              value : Buffer.from(data),
+              user_id : Buffer.from(user_id)
           }],
         });
         return res.code(200).send({result : "success"});
@@ -47,11 +48,12 @@ const consumerRun = async () => {
     await consumer.run({
         eachMessage: async({topic, partition, message}) => {
             let data = await JSON.parse(message.value.toString())
+            let user_id = await JSON.parse(message.user_id.toString())
                 try {
                 // 본 서버로 카프카 데이터 꺼내서 요청
                 await axios.post('http://localhost:8081/api/v1/payment/accept', {
                     payment : data,
-                    user_id : "hjhj"
+                    user_id : user_id
                 })
                 } catch (err) {
                 // 통신 실패하면 다시 카프카에 담기

@@ -28,7 +28,7 @@ const getInfo = async () => {
                 Authorization: getToken.data.response.access_token,
             }
         });
-        // 아이엠포트 서버에 결제내역이 없을 경우
+        
         if (retval.data.response.status == "paid" && retval.data.response.amount == element.paid_amount) {
             await pay_report.update({
                 is_complete :  0,
