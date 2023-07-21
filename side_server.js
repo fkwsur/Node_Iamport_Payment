@@ -61,7 +61,8 @@ const consumerRun = async () => {
                     topic: "iamport_kafka",
                     messages: [
                         {
-                        value : message.value
+                        value : message.value,
+                        user_id : message.user_id
                     }],
                 });
                 }
